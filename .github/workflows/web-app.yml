@@ -38,7 +38,7 @@ jobs:
           REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           REPOSITORY: spectrio-web-app
           IMAGE_TAG: ${{ github.sha }}
-        working-directory: ./backend/
+        working-directory: ./
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
