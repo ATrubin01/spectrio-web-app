@@ -51,7 +51,7 @@ You can scale the application by modifying the replicas field in the deployment.
 # Podinfo
 
 ## EKS Cluster Autoscaler and Deployment
-##Overview
+## Overview
 This section of the project demonstrates the setup and functionality of the Cluster Autoscaler within an Amazon EKS cluster. It includes deploying a web application (podinfo), configuring node selectors and tolerations, and testing the autoscaler by scaling the deployment.
 
 ## Deployment of Web Application
