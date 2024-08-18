@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: spectrio-web-app
 spec:
-  type: LoadBalancer
   selector:
     app: spectrio-web-app
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 3000
+  type: LoadBalancer
+

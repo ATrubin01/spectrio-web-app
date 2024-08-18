@@ -51,7 +51,6 @@ jobs:
           echo "Repository: $REPOSITORY"
           echo "Image Tag: $IMAGE_TAG"
 
-# Login to EKS
       - name: Login to EKS - update kubeconfig
         run: |
           aws eks update-kubeconfig --name spectrio-cluster-dev --region us-east-1
@@ -63,7 +62,5 @@ jobs:
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f ./deployment.yaml
-
-      - name: Create Kubernetes service
-        run: |
           kubectl apply -f ./service.yaml
+          kubectl apply -f ./ingress.yaml
