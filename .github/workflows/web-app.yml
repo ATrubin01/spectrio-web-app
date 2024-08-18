@@ -63,3 +63,7 @@ jobs:
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f ./deployment.yaml
+
+      - name: Create Kubernetes service
+        run: |
+          kubectl apply -f ./service.yaml
