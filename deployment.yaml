@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: spectrio-web-app
-        image: <ECR_REGISTRY>/<REPOSITORY>:<IMAGE_TAG>
+        image: "PLACEHOLDER_IMAGE"
         ports:
         - containerPort: 80
