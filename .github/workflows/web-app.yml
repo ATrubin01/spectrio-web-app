@@ -51,4 +51,4 @@ jobs:
       - name: Deploy to EKS
         run: |
           kubectl set image deployment/spectrio-web-app spectrio-web-app=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-          kubectl apply -f ./kubernetes/manifests/
+          kubectl apply -f ./
