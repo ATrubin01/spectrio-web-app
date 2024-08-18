@@ -64,3 +64,17 @@ jobs:
           kubectl apply -f ./deployment.yaml
           kubectl apply -f ./service.yaml
           kubectl apply -f ./ingress.yaml
+
+# Podinfo web app
+
+      - name: Apply Podinfo Deployment
+        run: |
+          kubectl apply -f ./podinfo-app/podinfo-deployment.yaml
+
+      - name: Apply Podinfo Service
+        run: |
+          kubectl apply -f ./podinfo-app/podinfo-service.yaml
+
+      - name: Apply Horizontal Pod Autoscaler
+        run: |
+          kubectl apply -f ./podinfo-app/podinfo-hpa.yaml
