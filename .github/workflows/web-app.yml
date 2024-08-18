@@ -57,3 +57,4 @@ jobs:
       - name: Update the Image in the Deployment
         run: |
           kubectl set image deployment/spectrio-web-app spectrio-web-app=$REGISTRY/$REPOSITORY:$IMAGE_TAG --record
+
