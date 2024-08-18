@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spectrio-web-app
+  labels:
+    app: spectrio-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spectrio-web-app
+  template:
+    metadata:
+      labels:
+        app: spectrio-web-app
+    spec:
+      containers:
+      - name: spectrio-web-app
+        image: <ECR_REGISTRY>/<REPOSITORY>:<IMAGE_TAG>
+        ports:
+        - containerPort: 80
