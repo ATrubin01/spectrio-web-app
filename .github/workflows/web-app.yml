@@ -48,7 +48,12 @@ jobs:
         run: |
           aws eks update-kubeconfig --name spectrio-cluster-dev --region us-east-1
 
+# Apply the Kubernetes manifests
       - name: Deploy to EKS
         run: |
-          kubectl set image deployment/spectrio-web-app spectrio-web-app=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-          kubectl apply -f ./
+          kubectl apply -f ./deployment.yaml
+
+# Update the Image in the Deployment
+      - name: Update the Image in the Deployment
+        run: |
+          kubectl set image deployment/spectrio-web-app spectrio-web-app=$REGISTRY/$REPOSITORY:$IMAGE_TAG --record
