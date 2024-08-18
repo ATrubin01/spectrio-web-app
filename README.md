@@ -56,3 +56,88 @@ Troubleshooting
 Load Balancer Issues: Ensure that the public subnets are correctly tagged with kubernetes.io/role/elb=1 and that the Ingress Controller has an external IP assigned.
 Conclusion
 This project showcases the deployment of a simple web application to an EKS cluster, utilizing GitHub Actions for continuous integration and deployment. The use of Kubernetes manifests for defining infrastructure and application configurations ensures a scalable and reliable deployment process.
+
+
+### podinfo ####
+
+EKS Cluster Autoscaler and Deployment
+Overview
+This section of the project demonstrates the setup and functionality of the Cluster Autoscaler within an Amazon EKS cluster. It includes deploying a web application (podinfo), configuring node selectors and tolerations, and testing the autoscaler by scaling the deployment.
+
+Deployment of Web Application
+1. Deploying the podinfo Application in Node Group 02
+We deployed the podinfo application to a specific node group (Node Group 02) in the EKS cluster. This setup is used to test the Cluster Autoscaler's ability to manage node scaling based on resource requests.
+
+Deployment Manifest:
+
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo-node-group-02
+  labels:
+    app: podinfo
+spec:
+  replicas: 1 # Initial replica count
+  selector:
+    matchLabels:
+      app: podinfo
+  template:
+    metadata:
+      labels:
+        app: podinfo
+    spec:
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: spectrio-project-node-group-02-dev
+      tolerations:
+      - key: "app"
+        operator: "Equal"
+        value: "podinfo"
+        effect: "NoSchedule"
+      containers:
+      - name: podinfo
+        image: stefanprodan/podinfo
+        ports:
+        - containerPort: 9898
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+Apply the Manifest:
+
+sh
+Copy code
+kubectl apply -f podinfo-node-group-02-deployment.yaml
+2. Scaling the Deployment
+To test the Cluster Autoscaler, we scaled the deployment to a higher number of replicas. This action should trigger the autoscaler to add more nodes to the cluster.
+
+Scale Up Command:
+
+sh
+Copy code
+kubectl scale deployment podinfo-node-group-02 --replicas=10
+3. Observing Cluster Autoscaler
+Monitor the Cluster Autoscaler to ensure it adds nodes to Node Group 02 based on the increased replica count. You can check the Cluster Autoscaler logs and EKS cluster status for confirmation.
+
+4. Scaling Down the Deployment
+After verifying that the autoscaler added nodes, scale down the deployment to test the autoscaler's ability to remove excess nodes.
+
+Scale Down Command:
+
+sh
+Copy code
+kubectl scale deployment podinfo-node-group-02 --replicas=1
+Verify Node Scaling:
+
+Check that the Cluster Autoscaler removes the extra nodes from Node Group 02 as expected.
+
+Summary
+This section validated the Cluster Autoscaler's functionality by deploying a sample application and observing its behavior under varying replica counts. The autoscaler managed node scaling effectively, adding and removing nodes as needed.
+
+Troubleshooting
+Pods Not Scheduling: Ensure that node selectors and tolerations are correctly configured. Check the node labels to match the nodeSelector values.
+Cluster Autoscaler Logs: Check the logs for any errors or warnings related to autoscaling actions.

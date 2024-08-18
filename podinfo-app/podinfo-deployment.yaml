@@ -14,6 +14,13 @@ spec:
       labels:
         app: podinfo
     spec:
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: spectrio-project-node-group-02-dev
+      tolerations:
+      - key: "app"
+        operator: "Equal"
+        value: "podinfo"
+        effect: "NoSchedule"
       containers:
       - name: podinfo
         image: stefanprodan/podinfo
@@ -26,5 +33,4 @@ spec:
           limits:
             cpu: "200m"
             memory: "256Mi"
-      nodeSelector:
-        eks.amazonaws.com/nodegroup: spectrio-node-group-02
+
